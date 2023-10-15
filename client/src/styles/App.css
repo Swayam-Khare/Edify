@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 :root{
-  --primary-color: #05d5ff;
-  --dark-color:#222222;
-  --light-color: #f0f0f0;
+  --primary-color: #fedb71;
+  --dark-color:#f0f0f0; 
+  --light-color: #140f1f;
 }
 
 body, html{
@@ -81,12 +81,12 @@ body, html{
 }
 
 .prev{
-    background-color: #05d5ff;
+    background-color: #fedb71;
     justify-self: flex-start;
 }
 
 ul li{
-  color: #AAAAAA;
+  color: #140f1f;
   display: block;
   position: relative;
   float: left;
