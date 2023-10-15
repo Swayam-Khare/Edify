@@ -2,8 +2,8 @@
 
 :root{
   --primary-color: #fedb71;
-  --dark-color:#f0f0f0; 
-  --light-color: #140f1f;
+  --dark-color:#140f1f;
+  --light-color: #f0f0f0;
 }
 
 body, html{
@@ -86,7 +86,7 @@ body, html{
 }
 
 ul li{
-  color: #140f1f;
+  color: #f0f0f0;
   display: block;
   position: relative;
   float: left;

@@ -21,7 +21,7 @@ export default function Main() {
       <h1 className='title text-light'>Edify</h1>
 
       <ol>
-        <li>You will be asked 10 questions one after another.</li>
+        <li>You will be asked 10 questions one after another on JavaScript</li>
         <li>10 points is awarded for the correct answer.</li>
         <li>Each question has three options. You can choose only one options.</li>
         <li>You can review and change answers before the quiz finish.</li>
