@@ -7,5 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Swayam Khare and Poorva Patidar",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^8.3.2"
+  }
 }
