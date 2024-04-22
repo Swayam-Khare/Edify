@@ -15,4 +15,11 @@ mongoose
     console.log(error);
   });
 
+// Routers
+const authRouter = require("./routes/authRoute");
+
+
+// Routes
+app.use("/api/v1/auth", authRouter);
+
 module.exports = app;
