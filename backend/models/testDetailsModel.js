@@ -1,50 +1,55 @@
 const mongoose = require("mongoose");
 
 const testDetailsSchema = new mongoose.Schema({
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: [true, "Please enter a user id"],
-    },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, "Please enter a user id"],
+  },
 
-    subject: {
-        type: String,
-        required: [true, "Please enter subject"],
-    },
+  subject: {
+    type: String,
+    required: [true, "Please enter subject"],
+  },
 
-    topic: {
-        type: String,
-        required: [true, "Please enter topic"],
-    },
+  questions: {
+    type: [mongoose.Schema.Types.ObjectId],
+    required: [true, "Please enter questions"],
+  },
 
-    questions: {
-        type: [mongoose.Schema.Types.ObjectId],
-        required: [true, "Please enter questions"],
-    },
+  answers: {
+    type: [String],
+    required: [true, "Please enter answers"],
+  },
 
-    answers: {
-        type: [String],
-        required: [true, "Please enter answers"],
-    },
+  score: {
+    type: Number,
+    required: [true, "Please enter score"],
+  },
 
-    score: {
-        type: Number,
-        required: [true, "Please enter score"],
-    },
+  difficulty: {
+    type: Number,
+    required: [true, "Please enter difficulty level"],
+  },
 
-    weak_topics: {
-        type: [String],
-        default: [],
-    },
+  duration: {
+    type: Number,
+    required: [true, "Please enter duration"],
+  },
 
-    duration: {
-        type: Number,
-        required: [true, "Please enter duration"],
-    },
+  reportId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: [true, "Please enter a report id"],
+  },
 
-    photo: {
-        type: String,
-        default: "",
-    },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  photo: {
+    type: String,
+    default: "",
+  },
 });
 
 const TestDetails = mongoose.model("TestDetails", testDetailsSchema);
