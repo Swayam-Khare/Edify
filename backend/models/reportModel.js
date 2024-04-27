@@ -15,7 +15,7 @@ const reportSchema = new mongoose.Schema({
     type: [Number],
     required: true
   },
-
+  
 });
 
 const Report = mongoose.model('Report', reportSchema);

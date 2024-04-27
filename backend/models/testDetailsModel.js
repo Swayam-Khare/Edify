@@ -36,7 +36,7 @@ const testDetailsSchema = new mongoose.Schema({
     required: [true, "Please enter duration"],
   },
 
-  reportId: {
+  report_id: {
     type: mongoose.Schema.Types.ObjectId,
     required: [true, "Please enter a report id"],
   },
