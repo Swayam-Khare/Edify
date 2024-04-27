@@ -2,7 +2,7 @@ const TestDetails = require("../models/TestDetails");
 
 exports.getTestDetails = async (req, res) => {
   try {
-    const testDetails = await TestDetails.find({ user_id: req.user._id});
+    const testDetails = await TestDetails.find({ user_id: req.user._id, subject: req.params.subject});
 
     res.status(200).json({
       status: "success",
@@ -35,6 +35,34 @@ exports.getLastReport = async (req, res) => {
       status: "success",
       data: {
         testDetails: testDetails[0],
+        report,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+}
+
+exports.getReport = async (req, res) => {
+  try {
+    const testDetails = await TestDetails.findById(req.params.id);
+
+    if (!testDetails) {
+      return res.status(400).json({
+        status: "fail",
+        message: "No test details found",
+      });
+    }
+
+    const report = await Report.findById(testDetails.report_id);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        testDetails,
         report,
       },
     });
