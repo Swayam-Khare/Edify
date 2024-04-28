@@ -1,4 +1,5 @@
 import AboutSection from "../components/AboutSection"
+import Footer from "../components/Footer"
 import HeroSection from "../components/HeroSection"
 import TeamSection from "../components/TeamSection"
 
@@ -14,6 +15,9 @@ export default function Home() {
       </section>
       <section id="about-team" className="h-screen">
         <TeamSection />
+      </section>
+      <section>
+        <Footer />
       </section>
     </>
   )
