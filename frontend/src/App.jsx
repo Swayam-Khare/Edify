@@ -1,5 +1,6 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Home from './views/Home';
+import AddQuestion from './views/AddQuestion';
 import './App.css';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
           <Route path="/signin" element={<Signin />} />
           <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/" element={<Home />} />
+          <Route path="/add" element={<AddQuestion />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,4 +1,4 @@
-const TestDetails = require("../models/TestDetails");
+const TestDetails = require("../models/testDetailsModel");
 
 exports.getTestDetails = async (req, res) => {
   try {

@@ -1,6 +1,6 @@
-const Question = require("../models/Question");
-const TestDetails = require("../models/TestDetails");
-const Report = require("../models/Report");
+const Question = require("../models/questionModel");
+const TestDetails = require("../models/testDetailsModel");
+const Report = require("../models/reportModel");
 const { conn } = require("../app");
 
 exports.startTest = async (req, res) => {
@@ -116,6 +116,36 @@ exports.submitTest = async (req, res) => {
     session.endSession();
   }
 };
+
+exports.addQuestion = async (req, res) => {
+  const { question, optionA, optionB, optionC, optionD, answer, subject, difficulty, topic } = req.body;
+
+  const options = [optionA, optionB, optionC, optionD];
+
+  try {
+    const newQuestion = await Question.create({
+      question,
+      options,
+      answer,
+      subject,
+      difficulty,
+      topic,
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Question added successfully",
+      data: {
+        question: newQuestion,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+}
 
 exports.calculateScore = async (req, res, next) => {
   const { questions, answers } = req.body;
