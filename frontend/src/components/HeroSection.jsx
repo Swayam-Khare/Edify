@@ -15,7 +15,7 @@ export default function HeroSection() {
   };
 
   function goToAbout() {
-    document.getElementById('about-team').scrollIntoView({ behavior: 'smooth' });
+    window.location.href = "/signup";
   }
 
   return (
@@ -24,10 +24,10 @@ export default function HeroSection() {
         <Logo />
         <div className="text-xl mt-14 font-medium mb-2">Lorem ipsum dolor sit amet consectetur.</div>
         <div className="text-7xl text-primary font-bold">
-        Welcome <br />
-        {" "} 
+          Welcome <br />
+          to{" "}
           <ReactTyped
-            strings={["to Edify!", "to Success!", "to Growth!"]}
+            strings={["Edify!", "Success!", "Growth!"]}
             typeSpeed={130}
             loop
             backSpeed={30}

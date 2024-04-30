@@ -9,6 +9,7 @@ const signToken = (id) => {
 
 exports.signup = async (req, res) => {
   try {
+    const { email } = req.body;
     const user = await User.findOne({ email });
 
     if (user) {
