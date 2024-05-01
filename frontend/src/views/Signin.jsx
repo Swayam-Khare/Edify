@@ -133,7 +133,7 @@ export default function Signin() {
 
               </div>
 
-              <button type="submit" className="w-full bg-primary text-white mt-4 p-2 rounded-md">{loading ? 'Creating...' : 'Sign In'}</button>
+              <button type="submit" className="w-full bg-primary text-white mt-4 p-2 rounded-md">{loading ? 'Signing in...' : 'Sign In'}</button>
             </form>
 
             <div className="mt-4 text-center">

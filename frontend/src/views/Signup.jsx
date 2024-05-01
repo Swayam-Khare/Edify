@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
 import animationData2 from '../assets/sign.json';
 import { toast, ToastContainer } from 'react-toastify';
@@ -10,6 +10,10 @@ export default function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    document.title = 'Signup - Edify';
+  }, []);
 
   const defaultOptions1 = {
     loop: true,
@@ -95,6 +99,7 @@ export default function Signup() {
           <div className="mt-4">
             <form onSubmit={handleSignup} className='w-96'>
               <input type="text" placeholder="Username" required className="w-full p-2 border-2 mt-2 border-gray-300 rounded-md" value={username} onChange={(e) => setUsername(e.target.value)} />
+
               <input type="email" placeholder="Email" required className="w-full mt-4 p-2 border-2 border-gray-300 rounded-md" value={email} onChange={(e) => setEmail(e.target.value)} />
 
               <div className="relative">
