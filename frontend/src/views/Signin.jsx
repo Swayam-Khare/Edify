@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Lottie from 'react-lottie';
 import animationData2 from '../assets/signin.json';
 import { toast, ToastContainer } from 'react-toastify';
@@ -9,6 +10,8 @@ export default function Signin() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigateTo = useNavigate();
 
   const defaultOptions1 = {
     loop: true,
@@ -41,6 +44,9 @@ export default function Signin() {
       });
       const result = await response.json();
       if (result.status === 'success') {
+        // save token to local storage
+        localStorage.setItem('user', JSON.stringify(result.user));
+
         toast.success('Login successful', {
           position: 'bottom-center',
           autoClose: 3000,
@@ -51,9 +57,11 @@ export default function Signin() {
           progress: undefined,
         });
 
+
+
         // redirect to home page
         setTimeout(() => {
-          window.location.href = '/dashboard';
+          navigateTo('/dashboard')
         }, 3000);
       }
       else {
@@ -133,11 +141,11 @@ export default function Signin() {
 
               </div>
 
-              <button type="submit" className="w-full bg-primary text-white mt-4 p-2 rounded-md">{loading ? 'Creating...' : 'Sign In'}</button>
+              <button type="submit" className="w-full bg-primary hover:bg-green-900 text-white mt-4 p-2 rounded-md">{loading ? 'Signing in...' : 'Sign In'}</button>
             </form>
 
             <div className="mt-4 text-center">
-              Don't have an account? <a href="/signup" className="text-primary">Sign up</a>
+              Don't have an account? <a href="/signup" className="text-primary hover:underline">Sign up</a>
             </div>
 
           </div>
