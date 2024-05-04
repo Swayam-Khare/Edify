@@ -34,7 +34,7 @@ exports.signup = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -45,7 +45,7 @@ exports.login = async (req, res) => {
     });
   }
 
-  const user = await User.findOne({ email }).select("+password");
+  let user = await User.findOne({ email }).select("+password");
   if (!user || !(await user.correctPassword(password, user.password))) {
     return res.status(401).json({
       status: "fail",
@@ -54,15 +54,28 @@ exports.login = async (req, res) => {
   }
 
   const token = signToken(user._id);
+
+  user = await User.findOne({ email });
+
+  res.cookie("jwtAuth", token, {
+    maxAge: process.env.JWT_EXPIRES_IN * 24 * 60 * 60 * 1000,
+    // secure:true,
+    httpOnly: true,
+  });
+
   res.status(200).json({
     status: "success",
     token,
+    user,
   });
-}
+};
 
 exports.protect = async (req, res, next) => {
   let token;
-  if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
     token = req.headers.authorization.split(" ")[1];
   }
 
@@ -91,5 +104,4 @@ exports.protect = async (req, res, next) => {
       message: "Invalid token",
     });
   }
-}
-
+};

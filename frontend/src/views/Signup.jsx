@@ -132,11 +132,11 @@ export default function Signup() {
 
               </div>
 
-              <button type="submit" className="w-full bg-primary text-white mt-4 p-2 rounded-md">{loading ? 'Creating...' : 'Sign Up'}</button>
+              <button type="submit" className="w-full bg-primary hover:bg-green-900 text-white mt-4 p-2 rounded-md">{loading ? 'Creating...' : 'Sign Up'}</button>
             </form>
 
             <div className="mt-4 text-center">
-              Already have an account? <a href="/signin" className="text-primary">Login</a>
+              Already have an account? <a href="/signin" className="text-primary hover:underline">Login</a>
             </div>
 
           </div>
