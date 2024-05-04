@@ -20,7 +20,7 @@ export default function Navbar() {
         <div className="ml-32 cursor-pointer">
           <a href="/"><Logo width={40} /></a>
         </div>
-        <div className="flex w- gap-10 mr-2 font-medium">
+        <div className="flex gap-10 mr-2 font-medium">
           <div className="flex items-center gap-5">
             <span onClick={() => goTo('hero')} className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer">Home</span>
 

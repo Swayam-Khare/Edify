@@ -36,7 +36,6 @@ export default function Home() {
         <Footer />
       </section>
 
-      // fab button to take user to top of the page
       {!isTop && (<Fab id="hero" />)}
     </>
   )
