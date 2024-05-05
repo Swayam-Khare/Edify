@@ -45,6 +45,12 @@ export default function AddQuestion() {
       setMessage(error.message);
       setLoading(false);
     }
+    setQuestion("");
+    setAnswer("");
+    setOptionA("");
+    setOptionB("");
+    setOptionC("");
+    setOptionD("");
   }
 
   return (
