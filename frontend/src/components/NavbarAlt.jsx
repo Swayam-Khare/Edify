@@ -35,7 +35,7 @@ export default function NavbarAlt({ user }) {
               <button className='flex justify-center items-center mr-4' onClick={() => setIsOpen(!isOpen)}>
                 <div className="bg-red-100 flex w-4 h-4 p-5 border-gray-300 border-2 hover:border-black justify-center items-center mr-2 rounded-full ">{user.username.charAt(0).toUpperCase()}</div>
               </button>
-              {isOpen && (<ProfileMenu user={user} />)}
+              {isOpen && (<ProfileMenu user={user} onClick={goTo} />)}
             </div>
           </div>
         </div>
