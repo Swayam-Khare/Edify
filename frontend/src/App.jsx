@@ -29,7 +29,6 @@ function App() {
           <Route path="/add" element={<AddQuestion />} />
         </Routes>
       </BrowserRouter>
-
     </>
   )
 }
