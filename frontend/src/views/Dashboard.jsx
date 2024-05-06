@@ -66,7 +66,7 @@ export default function Dashboard() {
         <hr />
         <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4 mt-4">
           {subjects.map((subject, index) => (
-            <SubjectCard key={index} subject={subject} color='purple'/>
+            <SubjectCard key={index} subject={subject} color='purple' />
           ))}
         </div>
       </div>

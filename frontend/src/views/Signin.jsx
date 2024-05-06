@@ -62,7 +62,7 @@ export default function Signin() {
         // redirect to home page
         setTimeout(() => {
           navigateTo('/dashboard')
-        }, 3000);
+        }, 1000);
       }
       else {
         toast.error(`Login failed: ${result.message}`, {
