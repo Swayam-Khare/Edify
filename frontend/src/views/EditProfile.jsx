@@ -9,7 +9,6 @@ export default function EditProfile() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     setUser(user);
-    console.log(user);
   }, []);
 
   function showComponent(id) {
