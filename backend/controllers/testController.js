@@ -9,9 +9,23 @@ exports.startTest = async (req, res) => {
 
   const { subject, difficulty } = req.body;
 
+  switch (difficulty) {
+    case "Easy":
+      difficulty = [1, 2];
+      break;
+    case "Medium":
+      difficulty = [3, 4];
+      break;
+    case "Hard":
+      difficulty = [5];
+      break;
+    default:
+      difficulty = [1, 2, 3, 4, 5];
+  }
+
   try {
     const questions = await Question.aggregate([
-      { $match: { subject, difficulty } },
+      { $match: { subject, difficulty: {$in: difficulty} } },
       { $sample: { size: 15 } },
     ]);
 
