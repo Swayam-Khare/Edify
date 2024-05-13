@@ -73,3 +73,28 @@ exports.getReport = async (req, res) => {
     });
   }
 }
+
+exports.getAllTestDetails = async (req, res) => {
+  try {
+    const testDetails = await TestDetails.find({ user_id: req.user._id });
+
+    if (testDetails.length === 0) {
+      return res.status(400).json({
+        status: "fail",
+        message: "No test details found",
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        testDetails,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};

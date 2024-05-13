@@ -29,10 +29,9 @@ export default function CreateTest() {
                   className="shadow appearance-none border text-lg rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="subject"
                 >
-                  <option>Math</option>
-                  <option>Science</option>
-                  <option>English</option>
-                  <option>History</option>
+                  <option>Quantitative Aptitude</option>
+                  <option>Logical Reasoning</option>
+                  <option>Verbal Reasoning</option>
                 </select>
               </div>
               <div>
