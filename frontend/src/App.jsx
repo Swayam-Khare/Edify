@@ -8,6 +8,7 @@ import Dashboard from './views/Dashboard';
 import EditProfile from './views/EditProfile';
 import ProtectedRoute from './components/ProtectedRoute';
 import CreateTest from './views/CreateTest';
+import TestList from './views/TestList';
 
 function App() {
   return (
@@ -20,6 +21,12 @@ function App() {
           <Route path="/dashboard" element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/show-tests" element={
+            <ProtectedRoute>
+              <TestList />
             </ProtectedRoute>
           } />
 

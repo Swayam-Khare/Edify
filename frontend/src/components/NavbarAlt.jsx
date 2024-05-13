@@ -23,7 +23,7 @@ export default function NavbarAlt({ user }) {
           <div className="flex items-center gap-5">
             <span onClick={() => goTo('dashboard')} className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer">Dashboard</span>
 
-            <span onClick={() => goTo('tests')} className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer">Tests</span>
+            <span onClick={() => goTo('show-tests')} className="hover:text-primary border-white border-b-4 hover:border-primary  h-full py-6 px-4 cursor-pointer">Tests</span>
 
             <span onClick={() => goTo('create')} className="bg-primary text-white rounded-3xl font-medium px-5 py-2.5 hover:bg-green-900 cursor-pointer">Start Test</span>
           </div>
