@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Logo from "./Logo";
-import Button from "./Button";
 import ProfileMenu from './ProfileMenu';
 import { useNavigate } from 'react-router-dom';
 

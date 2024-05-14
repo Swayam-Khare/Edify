@@ -9,6 +9,7 @@ import EditProfile from './views/EditProfile';
 import ProtectedRoute from './components/ProtectedRoute';
 import CreateTest from './views/CreateTest';
 import TestList from './views/TestList';
+import TestReport from './views/TestReport';
 
 function App() {
   return (
@@ -27,6 +28,12 @@ function App() {
           <Route path="/show-tests" element={
             <ProtectedRoute>
               <TestList />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/report/:testId" element={
+            <ProtectedRoute>
+              <TestReport />
             </ProtectedRoute>
           } />
 

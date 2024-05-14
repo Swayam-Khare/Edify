@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import NavbarAlt from "../components/NavbarAlt";
 import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function TestList() {
 
   const [user, setUser] = useState(null);
   const [tests, setTests] = useState([]);
-
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -73,6 +73,10 @@ export default function TestList() {
 
   }, []);
 
+  const openReport = (testId) => {
+    navigate(`/report/${testId}`);
+  }
+
   return (
     <>
       <div>
@@ -104,7 +108,7 @@ export default function TestList() {
                   <td className="border px-4 py-2">{test.duration}</td>
                   <td className="border px-4 py-2">{new Date(test.createdAt).toLocaleDateString()}</td>
                   <td className="border px-4 py-2">
-                    <button className=" px-4 py-1 border-2 border-primary rounded-full hover:bg-primary hover:text-white">Open</button>
+                    <button onClick={() => openReport(test._id)} className=" px-4 py-1 border-2 border-primary rounded-full hover:bg-primary hover:text-white">Open</button>
                   </td>
                 </tr>
               ))  

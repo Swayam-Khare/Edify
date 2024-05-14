@@ -8,7 +8,7 @@ export default function ProfileMenu({ user, onClick }) {
   }
 
   return (
-    <div className="absolute z-50 right-0 mt-4 w-48 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg">
+    <div className="absolute z-50 right-0 mt-4 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg">
       <div className="px-4 py-3">
         <p className="text-sm">Signed in as</p>
         <p className="text-sm font-medium text-gray-900">{user.email}</p>

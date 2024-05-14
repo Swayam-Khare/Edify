@@ -41,8 +41,8 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="mr-10">
-        <Lottie options={defaultOptions} width={570} className="cursor-none" />
+      <div className="mr-10 cursor-default">
+        <Lottie options={defaultOptions} width={570} />
       </div>
     </div>
   )
