@@ -5,6 +5,7 @@ export default function ProfileMenu({ user, onClick }) {
   function logout() {
     localStorage.removeItem('user');
     onClick('');
+    window.location.reload();
   }
 
   return (

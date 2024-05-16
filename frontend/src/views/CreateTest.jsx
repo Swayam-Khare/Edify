@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import NavbarAlt from "../components/NavbarAlt";
 import Button from "../components/Button";
 
 export default function CreateTest() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
+  const startTest = () => {
+    navigate('/test');
+  }
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -50,7 +56,7 @@ export default function CreateTest() {
             </div>
 
             <div className="mt-16 w-3/4 mx-auto">
-              <Button label="Start Test" />
+              <Button label="Start Test" onClick={startTest} />
             </div>
           </div>
         </div>

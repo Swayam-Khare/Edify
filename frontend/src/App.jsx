@@ -10,6 +10,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import CreateTest from './views/CreateTest';
 import TestList from './views/TestList';
 import TestReport from './views/TestReport';
+import Test from './views/Test';
 
 function App() {
   return (
@@ -34,6 +35,12 @@ function App() {
           <Route path="/report/:testId" element={
             <ProtectedRoute>
               <TestReport />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/test" element={
+            <ProtectedRoute>
+              <Test />
             </ProtectedRoute>
           } />
 
