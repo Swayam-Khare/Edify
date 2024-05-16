@@ -76,8 +76,7 @@ exports.submitTest = async (req, res) => {
   // save test details in database
   // send score to frontend
 
-  const { subject, questions, answers, difficulty, duration, reportId } =
-    req.body;
+  const { subject, questions, answers, difficulty, duration} = req.body;
   const user_id = req.user._id;
 
   const score = req.body.score;
