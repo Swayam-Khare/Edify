@@ -1,13 +1,14 @@
 const Question = require("../models/questionModel");
 const TestDetails = require("../models/testDetailsModel");
 const Report = require("../models/reportModel");
-const { conn } = require("../app");
+const { conn } = require("../models/db");
+console.log("hello", conn);
 
 exports.startTest = async (req, res) => {
   // fetch 15 questions of given subject, difficulty level.
   // send questions to frontend
 
-  const { subject, difficulty } = req.body;
+  let { subject, difficulty } = req.body;
 
   switch (difficulty) {
     case "Easy":
@@ -25,7 +26,7 @@ exports.startTest = async (req, res) => {
 
   try {
     const questions = await Question.aggregate([
-      { $match: { subject, difficulty: {$in: difficulty} } },
+      { $match: { subject, difficulty: { $in: difficulty } } },
       { $sample: { size: 15 } },
     ]);
 
@@ -76,22 +77,32 @@ exports.submitTest = async (req, res) => {
   // save test details in database
   // send score to frontend
 
-  const { subject, questions, answers, difficulty, duration} = req.body;
+  const { subject, questions, answers, difficulty, duration } = req.body;
   const user_id = req.user._id;
 
   const score = req.body.score;
   const summary = req.body.summary;
 
+  let session = await conn.startSession();
+
+  const questionIds = questions.map((question) => question._id);
+
   try {
-    const session = await conn.startSession();
     session.startTransaction();
 
     // Create report
-    const report = await Report.create([{
-      topics: summary.topics,
-      strengths: summary.strength,
-      scores: summary.scores,
-    }], { session });
+    const report = await Report.create(
+      [
+        {
+          topics: summary.topics,
+          strengths: summary.strength,
+          scores: summary.scores,
+        },
+      ],
+      { session }
+    );
+
+    console.log("report", report);
 
     // Create test details
     let testDetails = await TestDetails.create(
@@ -99,12 +110,12 @@ exports.submitTest = async (req, res) => {
         {
           user_id,
           subject,
-          questions,
+          questionIds,
           answers,
           difficulty,
           duration,
           score,
-          report_id: report._id,
+          report_id: report[0]._id,
         },
       ],
       { session }
@@ -116,7 +127,7 @@ exports.submitTest = async (req, res) => {
       status: "success",
       data: {
         testDetails,
-        report
+        report,
       },
     });
   } catch (error) {
@@ -125,13 +136,21 @@ exports.submitTest = async (req, res) => {
       status: "fail",
       message: error.message,
     });
-  } finally {
-    session.endSession();
   }
 };
 
 exports.addQuestion = async (req, res) => {
-  const { question, optionA, optionB, optionC, optionD, answer, subject, difficulty, topic } = req.body;
+  const {
+    question,
+    optionA,
+    optionB,
+    optionC,
+    optionD,
+    answer,
+    subject,
+    difficulty,
+    topic,
+  } = req.body;
 
   const options = [optionA, optionB, optionC, optionD];
 
@@ -158,7 +177,7 @@ exports.addQuestion = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
 
 exports.calculateScore = async (req, res, next) => {
   const { questions, answers } = req.body;

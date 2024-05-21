@@ -46,6 +46,7 @@ export default function Signin() {
       if (result.status === 'success') {
         // save token to local storage
         localStorage.setItem('user', JSON.stringify(result.user));
+        localStorage.setItem('token', result.token);
 
         toast.success('Login successful', {
           position: 'bottom-center',

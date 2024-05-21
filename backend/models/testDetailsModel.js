@@ -27,7 +27,7 @@ const testDetailsSchema = new mongoose.Schema({
   },
 
   difficulty: {
-    type: Number,
+    type: String,
     required: [true, "Please enter difficulty level"],
   },
 
