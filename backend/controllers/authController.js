@@ -60,7 +60,6 @@ exports.login = async (req, res) => {
   res.cookie("jwtAuth", token, {
     maxAge: process.env.JWT_EXPIRES_IN * 24 * 60 * 60 * 1000,
     // secure:true,
-    httpOnly: true,
   });
 
   res.status(200).json({

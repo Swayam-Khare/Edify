@@ -5,10 +5,12 @@ export default function Test() {
   const [user, setUser] = useState(null);
   const [index, setIndex] = useState(0);
   const [leave, setLeave] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [timer, setTimer] = useState(0);
   const navigate = useNavigate();
   let started = false;
 
-  let questions = [
+  let dummyQuestions = [
     {
       _id: "1",
       question: "What is 2 + 2?",
@@ -55,6 +57,8 @@ export default function Test() {
       subject: "Quantitative Aptitude",
     },
   ];
+
+  const [questions, setQuestions] = useState(dummyQuestions);
 
   // confirm before reloading or closing the window
   // window.onbeforeunload = (e) => {
@@ -112,19 +116,37 @@ export default function Test() {
       e.target.innerHTML = "Loading...";
 
       // send a request to the server to save the test
-      const res = fetch("http://localhost:3500/api/v1/test/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          subject: subject,
-          difficulty: difficulty,
-          questions: questions,
-          answers: chosen,
-          duration: 1200,
-        }),
-      });
+      try {
+
+        let token = localStorage.getItem("token");
+
+        const res = fetch("http://localhost:3500/api/v1/test/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            subject: subject,
+            difficulty: difficulty,
+            questions: questions,
+            answers: chosen,
+            duration: timer,
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "fail") {
+              alert(data.message);
+            } else {
+              localStorage.removeItem("chosen");
+              navigate(`/report/${data.data.testDetails._id}`);
+              alert("Test submitted successfully");
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       if (index < questions.length - 1) {
         setIndex((index) => index + 1);
@@ -138,25 +160,72 @@ export default function Test() {
     }
   };
 
-  let subject = "Quantitative Aptitude";
-  let difficulty = "Easy";
+  let subject = localStorage.getItem("subject");
+  let difficulty = localStorage.getItem("difficulty");
 
   useEffect(() => {
     if (chosen != null) {
       setClasses();
     }
-  }, [index]);
+  }, [index, loading]);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setUser(user);
 
+    let token  = localStorage.getItem("token");
+
+    let url = null;
+    if (difficulty == null) {
+      url = `http://localhost:3500/api/v1/test/mock/${subject}`;
+    } else {
+      url = "http://localhost:3500/api/v1/test/start";
+    }
+
+    // fetch questions
+    try {
+      const res = fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          subject: subject,
+          difficulty: difficulty,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === "fail") {
+            alert(data.message);
+          } else if (data.data.questions.length === 0) {
+            setQuestions(dummyQuestions);
+          }
+          else {
+            setQuestions(data.data.questions);
+            setLoading(false);
+          }
+        });
+
+        setInterval(() => {
+          setTimer(prev => prev + 1);
+          // get seconds
+          const seconds = timer % 60;
+          // get minutes
+          const minutes = Math.floor(timer / 60);
+        }, 1000)
+    } catch (error) {
+      console.log(error);
+    }
+
+    setLoading(false);
+
     chosen = JSON.parse(localStorage.getItem("chosen"));
-    console.log(chosen);
 
     if (chosen !== null) {
       localStorage.removeItem("chosen");
-      navigate("/create");
+      navigate("/dashboard");
       alert("You have to start a new test");
     } else {
       chosen = new Array(questions.length).fill(null);
@@ -167,109 +236,101 @@ export default function Test() {
 
   return (
     <>
-      <dialog open={leave}>
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-medium">
-            Are you sure you want to leave?
-          </h1>
-          <div className="flex justify-between w-full mt-4">
-            <button
-              onClick={() => setLeave(false)}
-              className="border rounded-lg py-2 px-6 border-black hover:bg-yellow-100"
-            >
-              No
-            </button>
-            <button
-              onClick={() => (window.location.href = "/")}
-              className="border rounded-lg py-2 px-6 border-black hover:bg-red-500 hover:text-white"
-            >
-              Yes
-            </button>
-          </div>
-        </div>
-      </dialog>
-      <div id="container" className="h-screen flex justify-center py-8">
-        <div className="px-8 py-6 flex-grow mx-44 shadow-lg rounded-xl border-2 border-primary flex flex-col item-center justify-between">
-          <div className="w-full">
-            <div className="flex justify-between text-xl font-medium w-full">
-              <div className="flex-1">{subject}</div>
-              <div className="text-primary flex-1 text-center">{`${index + 1}/${
-                questions.length
-              }`}</div>
-              <div className="flex-1 text-right">12:00</div>
-            </div>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <div id="container" className="h-screen flex justify-center py-8">
+            <div className="px-8 py-6 flex-grow mx-44 shadow-lg rounded-xl border-2 border-primary flex flex-col item-center justify-between">
+              <div className="w-full">
+                <div className="flex justify-between text-xl font-medium w-full">
+                  <div className="flex-1">{subject }</div>
+                  <div className="text-primary flex-1 text-center">{`${
+                    index + 1
+                  }/${questions.length}`}</div>
+                  <div className="flex-1 text-right">{Math.floor(timer / 60)}:{timer % 60}</div>
+                </div>
 
-            <div className="divider border border-gray-300 my-4"></div>
+                <div className="divider border border-gray-300 my-4"></div>
 
-            <div className="border flex flex-col justify-between h-full border-red-200 rounded-xl px-8 py-6 mt-8 text-lg">
-              <div>{questions[index].question}</div>
+                <div className="border flex flex-col justify-between h-full border-red-200 rounded-xl px-8 py-6 mt-8 text-lg">
+                  <div>{questions[index].question}</div>
 
-              <div className="mt-4">
-                <div className="flex justify-between">
-                  <div
-                    onClick={(e) => onChecked(e, questions[index].options[0])}
-                    className="w-full mx-2 my-2 p-2 options"
-                  >
-                    <label htmlFor="optionA">
-                      {questions[index].options[0]}
-                    </label>
-                  </div>
-                  <div
-                    onClick={(e) => onChecked(e, questions[index].options[1])}
-                    className="w-full mx-2 my-2 p-2 options"
-                  >
-                    <label htmlFor="optionB">
-                      {questions[index].options[1]}
-                    </label>
+                  <div className="mt-4">
+                    <div className="flex justify-between">
+                      <div
+                        onClick={(e) =>
+                          onChecked(e, questions[index].options[0])
+                        }
+                        className="w-full mx-2 my-2 p-2 options"
+                      >
+                        <label htmlFor="optionA">
+                          {questions[index].options[0]}
+                        </label>
+                      </div>
+                      <div
+                        onClick={(e) =>
+                          onChecked(e, questions[index].options[1])
+                        }
+                        className="w-full mx-2 my-2 p-2 options"
+                      >
+                        <label htmlFor="optionB">
+                          {questions[index].options[1]}
+                        </label>
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <div
+                        onClick={(e) =>
+                          onChecked(e, questions[index].options[2])
+                        }
+                        className="w-full mx-2 my-2 p-2 options"
+                      >
+                        <label htmlFor="optionC">
+                          {questions[index].options[2]}
+                        </label>
+                      </div>
+                      <div
+                        onClick={(e) =>
+                          onChecked(e, questions[index].options[3])
+                        }
+                        className="w-full mx-2 my-2 p-2 options"
+                      >
+                        <label htmlFor="optionD">
+                          {questions[index].options[3]}
+                        </label>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <div
-                    onClick={(e) => onChecked(e, questions[index].options[2])}
-                    className="w-full mx-2 my-2 p-2 options"
+              </div>
+
+              <div>
+                <div className="flex justify-between text-lg">
+                  <button
+                    onClick={prevQuestion}
+                    className="border rounded-lg py-2 px-6 border-black hover:bg-yellow-100"
                   >
-                    <label htmlFor="optionC">
-                      {questions[index].options[2]}
-                    </label>
-                  </div>
-                  <div
-                    onClick={(e) => onChecked(e, questions[index].options[3])}
-                    className="w-full mx-2 my-2 p-2 options"
+                    Prev
+                  </button>
+                  <button
+                    onClick={resetOptions}
+                    className="border rounded-lg py-2 px-6 border-black hover:bg-red-500 hover:text-white"
                   >
-                    <label htmlFor="optionD">
-                      {questions[index].options[3]}
-                    </label>
-                  </div>
+                    Clear
+                  </button>
+                  <button
+                    onClick={(e) => nextQuestion(e)}
+                    className="border rounded-lg py-2 px-6 border-black hover:bg-primary hover:text-white"
+                  >
+                    {index === questions.length - 1 ? "Submit" : "Next"}
+                  </button>
                 </div>
               </div>
             </div>
           </div>
-
-          <div>
-            <div className="flex justify-between text-lg">
-              <button
-                onClick={prevQuestion}
-                className="border rounded-lg py-2 px-6 border-black hover:bg-yellow-100"
-              >
-                Prev
-              </button>
-              <button
-                onClick={resetOptions}
-                className="border rounded-lg py-2 px-6 border-black hover:bg-red-500 hover:text-white"
-              >
-                Clear
-              </button>
-              <button
-                onClick={(e) => nextQuestion(e)}
-                className="border rounded-lg py-2 px-6 border-black hover:bg-primary hover:text-white"
-              >
-                {index === questions.length - 1 ? "Submit" : "Next"}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      )
+        </>
+      )}
     </>
   );
 }

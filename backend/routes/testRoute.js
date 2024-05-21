@@ -7,7 +7,7 @@ const router = express.Router();
 router.route("/start").post(authController.protect, testController.startTest);
 router
   .route("/mock/:subject")
-  .get(authController.protect, testController.mockTest);
+  .post(authController.protect, testController.mockTest);
 router
   .route("/submit")
   .post(

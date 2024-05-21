@@ -8,6 +8,8 @@ export default function CreateTest() {
   const navigate = useNavigate();
 
   const startTest = () => {
+    localStorage.setItem('subject', document.getElementById('subject').value);
+    localStorage.setItem('difficulty', document.getElementById('difficulty').value);
     navigate('/test');
   }
 

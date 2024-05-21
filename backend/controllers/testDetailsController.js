@@ -1,8 +1,12 @@
 const TestDetails = require("../models/testDetailsModel");
+const Report = require("../models/reportModel");
 
 exports.getTestDetails = async (req, res) => {
   try {
-    const testDetails = await TestDetails.find({ user_id: req.user._id, subject: req.params.subject});
+    const testDetails = await TestDetails.find({
+      user_id: req.user._id,
+      subject: req.params.subject,
+    });
 
     res.status(200).json({
       status: "success",
@@ -18,9 +22,15 @@ exports.getTestDetails = async (req, res) => {
   }
 };
 
+// TODO: Implement getLastReport
 exports.getLastReport = async (req, res) => {
   try {
-    const testDetails = await TestDetails.find({ user_id: req.user._id}).sort({createdAt: -1}).limit(1);
+    const testDetails = await TestDetails.find({
+      user_id: req.user._id,
+      subject: req.params.subject,
+    })
+      .sort({ createdAt: -1 })
+      .limit(1);
 
     if (testDetails.length === 0) {
       return res.status(400).json({
@@ -44,7 +54,7 @@ exports.getLastReport = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
 
 exports.getReport = async (req, res) => {
   try {
@@ -72,7 +82,7 @@ exports.getReport = async (req, res) => {
       message: error.message,
     });
   }
-}
+};
 
 exports.getAllTestDetails = async (req, res) => {
   try {
